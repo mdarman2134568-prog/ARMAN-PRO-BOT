@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARMAN PRO BOT | AI Trading</title>
+    <style>
+        body { background: #0b0e11; color: #e1e1e1; font-family: 'Segoe UI', sans-serif; text-align: center; padding: 15px; }
+        .app-container { max-width: 500px; margin: auto; border: 1px solid #2b2f36; padding: 20px; border-radius: 15px; background: #161a1e; box-shadow: 0px 10px 30px rgba(0,0,0,0.5); }
+        h1 { color: #00ffcc; font-size: 24px; text-transform: uppercase; margin-bottom: 5px; }
+        .market-badge { background: #23272e; padding: 5px 15px; border-radius: 20px; font-size: 12px; color: #848e9c; }
+        .signal-card { background: #1e2329; border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 5px solid #00ffcc; }
+        .signal-text { font-size: 32px; font-weight: bold; color: #00ff44; margin: 10px 0; }
+        .details { display: flex; justify-content: space-around; font-size: 14px; margin-bottom: 10px; }
+        .btn-group button { width: 100%; padding: 12px; margin: 5px 0; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
+        .pro-btn { background: linear-gradient(90deg, #ffcc00, #ff9900); color: black; }
+        .arman-btn { background: linear-gradient(90deg, #00ffcc, #0099ff); color: white; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #30363d; background: #0b0e11; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <h1>ARMAN PRO BOT</h1>
+    <span class="market-badge">QUOTEX REAL & OTC MARKET</span>
+
+    <div id="login-area">
+        <p style="font-size: 14px;">আপনার পারমিশন লিঙ্কটি এখানে দিন:</p>
+        <input type="text" id="passKey" placeholder="Paste login link here...">
+        <div class="btn-group">
+            <button class="arman-btn" onclick="activateBot()">লগইন করুন</button>
+        </div>
+    </div>
+
+    <div id="main-bot" style="display:none;">
+        <div class="signal-card">
+            <div class="details">
+                <span>এসেট: <b id="asset">EUR/USD (OTC)</b></span>
+                <span>টাইম: <b>1 MIN</b></span>
+            </div>
+            <p style="color: #848e9c; font-size: 14px;">অ্যানালাইসিস: Price Action & SR</p>
+            <div class="signal-text" id="signalDisplay">WAITING...</div>
+            <p id="mtg-text" style="color: #ffaa00; font-size: 13px;"></p>
+        </div>
+
+        <div class="btn-group">
+            <button class="pro-btn" onclick="getSignal('Pro Max')">GET PRO MAX SIGNAL</button>
+            <button class="arman-btn" onclick="getSignal('Arman Pro Max')">GET ARMAN PRO MAX SIGNAL</button>
+        </div>
+        
+        <p style="font-size: 12px; color: #5e6673; margin-top: 15px;">টেলিগ্রাম চ্যানেলে অটো সিগন্যাল পাঠানো হচ্ছে...</p>
+    </div>
+</div>
+
+<script>
+    function activateBot() {
+        let key = document.getElementById('passKey').value;
+        if(key.includes("arman")) {
+            document.getElementById('login-area').style.display = 'none';
+            document.getElementById('main-bot').style.display = 'block';
+            alert("আপনার Arman Pro Max এক্সেস সফল হয়েছে!");
+        } else {
+            alert("ভুল লিঙ্ক! আপনার পারমিশন নেই।");
+        }
+    }
+
+    function getSignal(mode) {
+        const assets = ["EUR/USD (OTC)", "GBP/USD", "AUD/CAD (OTC)", "USD/JPY"];
+        document.getElementById('asset').innerText = assets[Math.floor(Math.random() * assets.length)];
+        document.getElementById('signalDisplay').innerText = "ANALYZING...";
+        document.getElementById('mtg-text').innerText = "";
+
+        setTimeout(() => {
+            let winChance = Math.random();
+            let signal = winChance > 0.5 ? "CALL (UP) ⬆️" : "PUT (DOWN) ⬇️";
+            document.getElementById('signalDisplay').innerText = signal;
+            
+            // সিগন্যাল লস হলে অটো MTG
+            if(winChance < 0.2) { 
+                document.getElementById('mtg-text').innerText = "⚠️ লস হলে পরবর্তী ক্যান্ডেলে MTG নিন";
+            }
+        }, 2000);
+    }
+</script>
+
+</body>
+</html>
